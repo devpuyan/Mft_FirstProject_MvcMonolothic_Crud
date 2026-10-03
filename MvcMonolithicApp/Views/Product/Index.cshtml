@@ -1,0 +1,49 @@
+@model IEnumerable<MvcMonolithicApp.ApplicationServices.Dtos.ProductDtos.GetProductDto>
+
+@{
+}
+
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model=>model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ProductName
+            </td>
+            <td>
+                @item.ProductDescription
+            </td>
+            <td>
+                @item.UnitPrice
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;"
+                      onsubmit="return confirm('Delete this Product?');">
+                    <button type="submit" class="btn btn-link p-0">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+@model MvcMonolithicApp.ApplicationServices.Dtos.ProductDtos.EditProductDto
+
+@{
+ViewData["Title"] = "Edit Product";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Product</title>
+</head>
+<body>
+<h1>Edit Product</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group mb-3">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control"/>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ProductDescription" class="control-label"></label>
+                <input asp-for="ProductDescription" class="form-control" />
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="UnitPrice" class="control-label"></label>
+                <input asp-for="UnitPrice" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary"/>
+                <a asp-action="Index" class="btn btn-secondary">Back to list</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

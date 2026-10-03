@@ -1,0 +1,36 @@
+@model MvcMonolithicApp.ApplicationServices.Dtos.ProductDtos.EditProductDto
+
+@{
+}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Product's Details</title>
+</head>
+<body>
+<h1>Product's Details</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Details" method="get">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" disabled />
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ProductDescription" class="control-label"></label>
+                <input asp-for="ProductDescription" class="form-control" disabled/>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="UnitPrice" class="control-label"></label>
+                <input asp-for="UnitPrice" class="form-control" disabled/>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

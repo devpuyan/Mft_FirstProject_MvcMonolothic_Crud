@@ -13,7 +13,7 @@ public class ProductRepository : IProductRepository
         _projectDbContext = projectDbContext;
     }
 
-    #region [ - SelectAll - ]
+    #region [ - SelectAll() - ]
 
     public async Task<List<Product>> SelectAll()
     {
@@ -23,14 +23,14 @@ public class ProductRepository : IProductRepository
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
     #endregion
 
-    #region [ - Insert - ]
+    #region [ - Insert() - ]
 
     public async Task Insert(Product product)
     {
@@ -41,58 +41,58 @@ public class ProductRepository : IProductRepository
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
     #endregion
     
-    #region [ - Delete - ]
+    #region [ - Delete() - ]
 
     
-    public async Task Delete(Guid id)
+    public async Task Delete(Product product)
     {
         try
         {
-            var product = await _projectDbContext.Product.FindAsync(id);
-            if (product is null)
-                throw new KeyNotFoundException($"Product with id {id} not found.");
-            _projectDbContext.Product.Remove(product);
+            var foundProduct = await _projectDbContext.Product.FindAsync(product.Id);
+            if (foundProduct is null)
+                throw new KeyNotFoundException($"Product with id {product.Id} not found.");
+            _projectDbContext.Product.Remove(foundProduct);
             await _projectDbContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
     #endregion
     
-    #region [ - Edit - ]
+    #region [ - Edit() - ]
 
-    public async Task Edit(Guid id, string productName, string productDescription, decimal unitPrice)
+    public async Task Edit(Product product)
     {
         try
         {
-            var product = await _projectDbContext.Product.FindAsync(id);
-            if (product is null)
-                throw new KeyNotFoundException($"Person with id {id} not found.");
-            product.ProductName = productName;
-            product.ProductDescription = productDescription;
-            product.UnitPrice = unitPrice;
+            var foundProduct = await _projectDbContext.Product.FindAsync(product.Id);
+            if (foundProduct is null)
+                throw new KeyNotFoundException($"Person with id {product.Id} not found.");
+            foundProduct.Title = product.Title;
+            foundProduct.DescriptionRecord = product.DescriptionRecord;
+            foundProduct.UnitPrice = product.UnitPrice;
             await _projectDbContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
     #endregion
     
-    #region [ - GetById - ]
+    #region [ - GetById() - ]
 
     public async Task<Product?> GetProductById(Guid id)
     {

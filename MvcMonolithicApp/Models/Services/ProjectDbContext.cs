@@ -6,7 +6,7 @@ namespace MvcMonolithicApp.Models.Services;
 
 public class ProjectDbContext : DbContext
 {
-    #region [ - Default Constructor - ]
+    #region [ - Default Constructor() - ]
 
     public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options)
     {
@@ -15,7 +15,7 @@ public class ProjectDbContext : DbContext
 
     #endregion
     
-    #region [ - DbSet - ]
+    #region [ - DbSets - ]
 
     public DbSet<Person> Person { get; set; }
     public DbSet<Product> Product { get; set; }

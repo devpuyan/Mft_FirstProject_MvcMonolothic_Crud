@@ -13,7 +13,7 @@ public class PersonRepository : IPersonRepository
         _projectDbContext = projectDbContext;
     }
 
-    #region [ - SelectAll - ]
+    #region [ - SelectAll() - ]
     public async Task<List<Person>> SelectAll()
     {
         try
@@ -22,13 +22,13 @@ public class PersonRepository : IPersonRepository
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
     #endregion
     
-    #region [ - Insert - ]
+    #region [ - Insert() - ]
     public async Task Insert(Person person)
     {
         try
@@ -44,51 +44,51 @@ public class PersonRepository : IPersonRepository
     }
     #endregion
 
-    #region [ - Delete - ]
+    #region [ - Delete() - ]
 
-    public async Task Delete(int id)
+    public async Task Delete(Person person)
     {
         
         try
         {
-            var person = await _projectDbContext.Person.FindAsync(id);
-            if (person is null)
-                throw new KeyNotFoundException($"Person with id {id} not found.");
-            _projectDbContext.Person.Remove(person);
+            var foundPerson = await _projectDbContext.Person.FindAsync(person.Id);
+            if (foundPerson is null)
+                throw new KeyNotFoundException($"Person with id {person.Id} not found.");
+            _projectDbContext.Person.Remove(foundPerson);
             await _projectDbContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
     #endregion
 
-    #region [ - Edit - ]
+    #region [ - Edit() - ]
 
-    public async Task Edit(int id, string firstName, string lastName)
+    public async Task Edit(Person person)
     {
         try
         {
-            var person = await _projectDbContext.Person.FindAsync(id);
-            if (person is null)
-                throw new KeyNotFoundException($"Person with id {id} not found.");
-            person.FirstName = firstName;
-            person.LastName = lastName;
+            var foundPerson = await _projectDbContext.Person.FindAsync(person.Id);
+            if (foundPerson is null)
+                throw new KeyNotFoundException($"Person with id {person.Id} not found.");
+            foundPerson.FirstName = person.FirstName;
+            foundPerson.LastName = person.LastName;
             await _projectDbContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }
 
     #endregion
 
-    #region [ - GetPersonById - ]
+    #region [ - GetPersonById() - ]
 
     public async Task<Person?> GetById(int id)
     {
@@ -98,7 +98,7 @@ public class PersonRepository : IPersonRepository
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             throw;
         }
     }

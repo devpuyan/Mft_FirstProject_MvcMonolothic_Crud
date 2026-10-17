@@ -14,7 +14,7 @@ public class PersonApplicationService : IPersonApplicationService
         _personRepository = personRepository;
     }
 
-    #region [ - GetAllPerson - ]
+    #region [ - GetAllPerson() - ]
 
     public async Task<List<GetPersonDto>> GetAllPerson()
     {
@@ -33,6 +33,10 @@ public class PersonApplicationService : IPersonApplicationService
 
         return getPersonDtos;
     }
+    
+    #endregion
+
+    #region [ - PostPerson() -]
 
     public async Task PostPerson(CreatePersonDto createPersonDto)
     {
@@ -44,14 +48,33 @@ public class PersonApplicationService : IPersonApplicationService
         await _personRepository.Insert(person);
     }
 
+    #endregion
+
+    #region [ - DeletePerson() -]
+
     public async Task DeletePerson(DeletePersonDto deletePersonDto)
     {
-        await _personRepository.Delete(deletePersonDto.Id);
+        var person = await _personRepository.GetById(deletePersonDto.Id);
+
+        if (person is null)
+            return;
+
+        await _personRepository.Delete(person);
     }
+    #endregion
+    #region [ - PutPerson() -]
 
     public async Task PutPerson(EditPersonDto editPersonDto)
     {
-        await _personRepository.Edit(editPersonDto.Id, editPersonDto.FirstName, editPersonDto.LastName);
+        var person = await _personRepository.GetById(editPersonDto.Id);
+
+        if (person is null)
+            return;
+
+        person.FirstName = editPersonDto.FirstName;
+        person.LastName = editPersonDto.LastName;
+
+        await _personRepository.Edit(person);
     }
     
     #endregion

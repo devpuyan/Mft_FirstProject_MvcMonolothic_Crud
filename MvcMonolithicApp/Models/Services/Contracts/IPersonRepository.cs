@@ -6,7 +6,7 @@ public interface IPersonRepository
 {
     Task<List<Person>> SelectAll();
     Task Insert(Person person);
-    Task Delete(int id);
-    Task Edit(int id, string firstName, string lastName);
+    Task Delete(Person person);
+    Task Edit(Person person);
     Task<Person?> GetById(int id);
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dev.pouyan/Desktop/Git_resume/MvcMonolithic/MvcMonolithic/MvcMonolithicApp/MvcMonolithicApp.csproj": {}
+    "/Users/dev.pouyan/Desktop/mmmmmm/Mft_FirstProject_MvcMonolothic_Crud/MvcMonolithicApp/MvcMonolithicApp.csproj": {}
   },
   "projects": {
-    "/Users/dev.pouyan/Desktop/Git_resume/MvcMonolithic/MvcMonolithic/MvcMonolithicApp/MvcMonolithicApp.csproj": {
+    "/Users/dev.pouyan/Desktop/mmmmmm/Mft_FirstProject_MvcMonolothic_Crud/MvcMonolithicApp/MvcMonolithicApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dev.pouyan/Desktop/Git_resume/MvcMonolithic/MvcMonolithic/MvcMonolithicApp/MvcMonolithicApp.csproj",
+        "projectUniqueName": "/Users/dev.pouyan/Desktop/mmmmmm/Mft_FirstProject_MvcMonolothic_Crud/MvcMonolithicApp/MvcMonolithicApp.csproj",
         "projectName": "MvcMonolithicApp",
-        "projectPath": "/Users/dev.pouyan/Desktop/Git_resume/MvcMonolithic/MvcMonolithic/MvcMonolithicApp/MvcMonolithicApp.csproj",
+        "projectPath": "/Users/dev.pouyan/Desktop/mmmmmm/Mft_FirstProject_MvcMonolothic_Crud/MvcMonolithicApp/MvcMonolithicApp.csproj",
         "packagesPath": "/Users/dev.pouyan/.nuget/packages",
-        "outputPath": "/Users/dev.pouyan/Desktop/Git_resume/MvcMonolithic/MvcMonolithic/MvcMonolithicApp/obj/",
+        "outputPath": "/Users/dev.pouyan/Desktop/mmmmmm/Mft_FirstProject_MvcMonolothic_Crud/MvcMonolithicApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/dev.pouyan/.nuget/NuGet/NuGet.Config"

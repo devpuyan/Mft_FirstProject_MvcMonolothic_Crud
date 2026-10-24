@@ -1,13 +1,16 @@
-
 using MvcMonolithicApp.ApplicationServices.Contracts;
+using MvcMonolithicApp.ApplicationServices.Dtos.PersonDtos;
 using MvcMonolithicApp.ApplicationServices.Dtos.ProductDtos;
 using MvcMonolithicApp.Models.DomainModels.ProductAggregate;
 using MvcMonolithicApp.Models.Services.Contracts;
+using EditProductDto = MvcMonolithicApp.ApplicationServices.Dtos.ProductDtos.EditProductDto;
 
 namespace MvcMonolithicApp.ApplicationServices;
 
 public class ProductApplicationService : IProductApplicationService
 {
+    #region [ - Fields & Constructor - ]
+
     private readonly IProductRepository _productRepository;
 
     public ProductApplicationService(IProductRepository productRepository)
@@ -15,9 +18,11 @@ public class ProductApplicationService : IProductApplicationService
         _productRepository = productRepository;
     }
 
-    #region GetAllProducts
+    #endregion
 
-    public async Task<List<GetProductDto>> GetAllProduct()
+    #region [ - GetAll() - ]
+
+    public async Task<List<GetProductDto>> GetAll()
     {
         var products = await _productRepository.SelectAll();
 
@@ -41,9 +46,9 @@ public class ProductApplicationService : IProductApplicationService
 
     #endregion
 
-    #region PostProduct
+    #region [ - Post() - ]
 
-    public async Task PostProduct(CreateProductDto createProductDto)
+    public async Task Post(CreateProductDto createProductDto)
     {
         var product = new Product
         {
@@ -57,11 +62,16 @@ public class ProductApplicationService : IProductApplicationService
 
     #endregion
 
-    #region DeleteProduct
+    #region [ - Delete() - ]
 
-    public async Task DeleteProduct(DeleteProductDto deleteProductDto)
+    public async Task Delete(DeleteProductDto deleteProductDto)
     {
-        var product = await _productRepository.GetProductById(deleteProductDto.Id);
+        var productModel = new Product
+        {
+            Id = deleteProductDto.Id
+        };
+
+        var product = await _productRepository.GetProductById(productModel);
 
         if (product is null)
             return;
@@ -71,11 +81,16 @@ public class ProductApplicationService : IProductApplicationService
 
     #endregion
 
-    #region PutProduct
+    #region [ - Put() - ]
 
-    public async Task PutProduct(EditProductDto editProductDto)
+    public async Task Put(EditProductDto editProductDto)
     {
-        var product = await _productRepository.GetProductById(editProductDto.Id);
+        var productModel = new Product
+        {
+            Id = editProductDto.Id
+        };
+
+        var product = await _productRepository.GetProductById(productModel);
 
         if (product is null)
             return;
@@ -89,16 +104,30 @@ public class ProductApplicationService : IProductApplicationService
 
     #endregion
 
-    #region GetProductById
+    #region [ - GetProductById() - ]
 
-    public async Task<EditProductDto?> GetProductById(Guid id)
+    public Task<GetProductDto?> GetProductById(Guid getProductDto)
     {
-        var product = await _productRepository.GetProductById(id);
+        throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #region [ - GetById() - ]
+
+    public async Task<GetProductDto?> GetById(GetProductDto getProductDto)
+    {
+        var productModel = new Product
+        {
+            Id = getProductDto.Id
+        };
+
+        var product = await _productRepository.GetProductById(productModel);
 
         if (product is null)
             return null;
 
-        return new EditProductDto
+        return new GetProductDto
         {
             Id = product.Id,
             Title = product.Title,

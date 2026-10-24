@@ -5,9 +5,9 @@ namespace MvcMonolithicApp.ApplicationServices.Contracts;
 public interface IPersonApplicationService
 {
     Task<List<GetPersonDto>> GetAllPerson();
-    Task PostPerson(CreatePersonDto createPersonDto);
-    Task DeletePerson(DeletePersonDto deletePersonDto);
-    Task PutPerson(EditPersonDto editPersonDto);
-    Task<EditPersonDto?> GetPersonById(int id);
+    Task Post(CreatePersonDto createPersonDto);
+    Task Delete(DeletePersonDto deletePersonDto);
+    Task Put(EditPersonDto editPersonDto);
+    Task<GetPersonDto?> GetById(GetPersonDto getPersonDto);
 
 }

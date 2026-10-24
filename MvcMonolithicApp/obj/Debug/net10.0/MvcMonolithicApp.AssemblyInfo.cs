@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MvcMonolithicApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8f72dd985b36aa3d8b94542074f19588d53f4b5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe8ee7bc8dd4167a9d04c1b96449db172ba6e495")]
 [assembly: System.Reflection.AssemblyProductAttribute("MvcMonolithicApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MvcMonolithicApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

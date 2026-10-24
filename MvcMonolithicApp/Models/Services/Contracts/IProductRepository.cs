@@ -8,5 +8,5 @@ public interface IProductRepository
     Task Insert(Product product);
     Task Delete(Product product);
     Task Edit(Product product);
-    Task<Product?> GetProductById(Guid id);
+    Task<Product?> GetProductById(Product product);
 }

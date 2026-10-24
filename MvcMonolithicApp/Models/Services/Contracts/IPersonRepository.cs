@@ -8,5 +8,5 @@ public interface IPersonRepository
     Task Insert(Person person);
     Task Delete(Person person);
     Task Edit(Person person);
-    Task<Person?> GetById(int id);
+    Task<Person?> GetById(Person person);
 }

@@ -21,7 +21,8 @@ public class ProjectDbContext : DbContext
     public DbSet<Product> Product { get; set; }
 
     #endregion
-    
+
+    #region [ - OnModelCreating() - ]
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,4 +30,6 @@ public class ProjectDbContext : DbContext
             .Property(p => p.UnitPrice)
             .HasPrecision(18, 2);
     }
+
+    #endregion
 }

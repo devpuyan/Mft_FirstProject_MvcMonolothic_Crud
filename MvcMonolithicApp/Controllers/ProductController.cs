@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcMonolithicApp.ApplicationServices.Contracts;
-using MvcMonolithicApp.ApplicationServices.Dtos.PersonDtos;
 using MvcMonolithicApp.ApplicationServices.Dtos.ProductDtos;
-using MvcMonolithicApp.Models.DomainModels.PersonAggregate;
 
 namespace MvcMonolithicApp.Controllers;
 
 public class ProductController : Controller
 {
+    #region [ - Fields & Constructor - ]
+
     private readonly IProductApplicationService _productApplicationService;
 
     public ProductController(IProductApplicationService productApplicationService)
@@ -15,14 +15,22 @@ public class ProductController : Controller
         _productApplicationService = productApplicationService;
     }
 
-    // GET
+    #endregion
+
+    #region [ - Index() - ]
+
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var result = await _productApplicationService.GetAllProduct();
+        var result = await _productApplicationService.GetAll();
         return View(result);
     }
 
-    //Create
+    #endregion
+
+    #region [ - Create() - ]
+
+    [HttpGet]
     public IActionResult Create()
     {
         return View("Create");
@@ -37,19 +45,30 @@ public class ProductController : Controller
             return View("Create");
         }
 
-        await _productApplicationService.PostProduct(createProductDto);
+        await _productApplicationService.Post(createProductDto);
         return RedirectToAction(nameof(Index));
     }
 
+    #endregion
+
+    #region [ - Edit() - ]
+
     [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
+    public async Task<IActionResult> Edit(GetProductDto getProductDto)
     {
-        var product = await _productApplicationService.GetProductById(id);
+        var product = await _productApplicationService.GetById(getProductDto);
 
         if (product is null)
             return NotFound();
 
-        return View(product);
+        var editProductDto = new EditProductDto()
+        {
+            Id = product.Id,
+            DescriptionRecord = product.DescriptionRecord,
+            UnitPrice = product.UnitPrice
+        };
+
+        return View(editProductDto);
     }
 
     [HttpPost]
@@ -59,28 +78,38 @@ public class ProductController : Controller
         if (!ModelState.IsValid)
             return View(editProductDto);
 
-        await _productApplicationService.PutProduct(editProductDto);
+        await _productApplicationService.Put(editProductDto);
 
         return RedirectToAction(nameof(Index));
     }
-    
+
+    #endregion
+
+    #region [ - Delete() - ]
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(DeleteProductDto deleteProductDto)
     {
-        await _productApplicationService.DeleteProduct(deleteProductDto);
+        await _productApplicationService.Delete(deleteProductDto);
         return RedirectToAction(nameof(Index));
     }
-    
-    public async Task<IActionResult> Details(Guid id)
-    {
-        var person = await _productApplicationService.GetProductById(id);
 
-        if (person == null)
+    #endregion
+
+    #region [ - Details() - ]
+
+    [HttpGet]
+    public async Task<IActionResult> Details(GetProductDto getProductDto)
+    {
+        var product = await _productApplicationService
+            .GetById(getProductDto);
+
+        if (product is null)
             return NotFound();
 
-        return View(person);
+        return View(product);
     }
 
-
+    #endregion
 }

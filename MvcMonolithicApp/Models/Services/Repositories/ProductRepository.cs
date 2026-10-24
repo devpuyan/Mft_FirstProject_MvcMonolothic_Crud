@@ -6,12 +6,16 @@ namespace MvcMonolithicApp.Models.Services.Repositories;
 
 public class ProductRepository : IProductRepository
 {
-    private readonly ProjectDbContext _projectDbContext;
+    #region [ - Fields & Constructor - ]
 
+    private readonly ProjectDbContext _projectDbContext;
+    
     public ProductRepository(ProjectDbContext projectDbContext)
     {
         _projectDbContext = projectDbContext;
     }
+
+    #endregion
 
     #region [ - SelectAll() - ]
 
@@ -50,7 +54,6 @@ public class ProductRepository : IProductRepository
     
     #region [ - Delete() - ]
 
-    
     public async Task Delete(Product product)
     {
         try
@@ -58,6 +61,7 @@ public class ProductRepository : IProductRepository
             var foundProduct = await _projectDbContext.Product.FindAsync(product.Id);
             if (foundProduct is null)
                 throw new KeyNotFoundException($"Product with id {product.Id} not found.");
+            
             _projectDbContext.Product.Remove(foundProduct);
             await _projectDbContext.SaveChangesAsync();
         }
@@ -67,6 +71,7 @@ public class ProductRepository : IProductRepository
             throw;
         }
     }
+
     #endregion
     
     #region [ - Edit() - ]
@@ -77,7 +82,8 @@ public class ProductRepository : IProductRepository
         {
             var foundProduct = await _projectDbContext.Product.FindAsync(product.Id);
             if (foundProduct is null)
-                throw new KeyNotFoundException($"Person with id {product.Id} not found.");
+                throw new KeyNotFoundException($"Product with id {product.Id} not found.");
+            
             foundProduct.Title = product.Title;
             foundProduct.DescriptionRecord = product.DescriptionRecord;
             foundProduct.UnitPrice = product.UnitPrice;
@@ -94,11 +100,11 @@ public class ProductRepository : IProductRepository
     
     #region [ - GetById() - ]
 
-    public async Task<Product?> GetProductById(Guid id)
+    public async Task<Product?> GetProductById(Product product)
     {
         try
         {
-            return await _projectDbContext.Product.FindAsync(id);
+            return await _projectDbContext.Product.FindAsync(product.Id);
         }
         catch (Exception e)
         {
@@ -108,5 +114,4 @@ public class ProductRepository : IProductRepository
     }
 
     #endregion
-
 }

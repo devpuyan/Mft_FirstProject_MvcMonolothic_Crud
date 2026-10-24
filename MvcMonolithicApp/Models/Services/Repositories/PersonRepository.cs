@@ -6,6 +6,8 @@ namespace MvcMonolithicApp.Models.Services.Repositories;
 
 public class PersonRepository : IPersonRepository
 {
+    #region [ - Fields & Constructor - ]
+
     private readonly ProjectDbContext _projectDbContext;
 
     public PersonRepository(ProjectDbContext projectDbContext)
@@ -13,7 +15,10 @@ public class PersonRepository : IPersonRepository
         _projectDbContext = projectDbContext;
     }
 
+    #endregion
+
     #region [ - SelectAll() - ]
+
     public async Task<List<Person>> SelectAll()
     {
         try
@@ -26,9 +31,11 @@ public class PersonRepository : IPersonRepository
             throw;
         }
     }
+
     #endregion
     
     #region [ - Insert() - ]
+
     public async Task Insert(Person person)
     {
         try
@@ -42,18 +49,19 @@ public class PersonRepository : IPersonRepository
             throw;
         }
     }
+
     #endregion
 
     #region [ - Delete() - ]
 
     public async Task Delete(Person person)
     {
-        
         try
         {
             var foundPerson = await _projectDbContext.Person.FindAsync(person.Id);
             if (foundPerson is null)
                 throw new KeyNotFoundException($"Person with id {person.Id} not found.");
+            
             _projectDbContext.Person.Remove(foundPerson);
             await _projectDbContext.SaveChangesAsync();
         }
@@ -75,6 +83,7 @@ public class PersonRepository : IPersonRepository
             var foundPerson = await _projectDbContext.Person.FindAsync(person.Id);
             if (foundPerson is null)
                 throw new KeyNotFoundException($"Person with id {person.Id} not found.");
+            
             foundPerson.FirstName = person.FirstName;
             foundPerson.LastName = person.LastName;
             await _projectDbContext.SaveChangesAsync();
@@ -88,13 +97,13 @@ public class PersonRepository : IPersonRepository
 
     #endregion
 
-    #region [ - GetPersonById() - ]
+    #region [ - GetById() - ]
 
-    public async Task<Person?> GetById(int id)
+    public async Task<Person?> GetById(Person person)
     {
         try
         {
-            return await _projectDbContext.Person.FindAsync(id);
+            return await _projectDbContext.Person.FindAsync(person.Id);
         }
         catch (Exception e)
         {
@@ -104,5 +113,4 @@ public class PersonRepository : IPersonRepository
     }
 
     #endregion
-    
 }

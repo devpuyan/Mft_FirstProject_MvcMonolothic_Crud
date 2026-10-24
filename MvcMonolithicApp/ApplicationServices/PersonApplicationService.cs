@@ -7,12 +7,16 @@ namespace MvcMonolithicApp.ApplicationServices;
 
 public class PersonApplicationService : IPersonApplicationService
 {
+    #region [ - Fields & Constructor - ]
+
     private readonly IPersonRepository _personRepository;
 
     public PersonApplicationService(IPersonRepository personRepository)
     {
         _personRepository = personRepository;
     }
+
+    #endregion
 
     #region [ - GetAllPerson() - ]
 
@@ -36,9 +40,9 @@ public class PersonApplicationService : IPersonApplicationService
     
     #endregion
 
-    #region [ - PostPerson() -]
+    #region [ - Post() - ]
 
-    public async Task PostPerson(CreatePersonDto createPersonDto)
+    public async Task Post(CreatePersonDto createPersonDto)
     {
         var person = new Person()
         {
@@ -50,23 +54,35 @@ public class PersonApplicationService : IPersonApplicationService
 
     #endregion
 
-    #region [ - DeletePerson() -]
+    #region [ - Delete() - ]
 
-    public async Task DeletePerson(DeletePersonDto deletePersonDto)
+    public async Task Delete(DeletePersonDto deletePersonDto)
     {
-        var person = await _personRepository.GetById(deletePersonDto.Id);
+        var personModel = new Person
+        {
+            Id = deletePersonDto.Id
+        };
+
+        var person = await _personRepository.GetById(personModel);
 
         if (person is null)
             return;
 
         await _personRepository.Delete(person);
     }
-    #endregion
-    #region [ - PutPerson() -]
 
-    public async Task PutPerson(EditPersonDto editPersonDto)
+    #endregion
+    
+    #region [ - Put() - ]
+
+    public async Task Put(EditPersonDto editPersonDto)
     {
-        var person = await _personRepository.GetById(editPersonDto.Id);
+        var personModel = new Person
+        {
+            Id = editPersonDto.Id
+        };
+
+        var person = await _personRepository.GetById(personModel);
 
         if (person is null)
             return;
@@ -76,20 +92,30 @@ public class PersonApplicationService : IPersonApplicationService
 
         await _personRepository.Edit(person);
     }
-    
+
     #endregion
     
-    public async Task<EditPersonDto?> GetPersonById(int id)
+    #region [ - GetById() - ]
+
+    public async Task<GetPersonDto?> GetById(GetPersonDto getPersonDto)
     {
-        var person = await _personRepository.GetById(id);
+        var personModel = new Person
+        {
+            Id = getPersonDto.Id
+        };
+
+        var person = await _personRepository.GetById(personModel);
+
         if (person is null)
             return null;
 
-        return new EditPersonDto
+        return new GetPersonDto
         {
             Id = person.Id,
             FirstName = person.FirstName,
             LastName = person.LastName
         };
     }
+
+    #endregion
 }

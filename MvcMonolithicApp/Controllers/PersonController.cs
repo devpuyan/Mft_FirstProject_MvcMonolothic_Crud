@@ -6,24 +6,37 @@ namespace MvcMonolithicApp.Controllers;
 
 public class PersonController : Controller
 {
-    private readonly IPersonApplicationService _personApplicationService;
+
+    #region [ - Fields & Constructor - ]
     
+    private readonly IPersonApplicationService _personApplicationService;
+
     public PersonController(IPersonApplicationService personApplicationService)
     {
         _personApplicationService = personApplicationService;
     }
 
+    #endregion
+
+    #region [ - Index() - ]
+
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
         var result = await _personApplicationService.GetAllPerson();
         return View(result);
     }
 
+    #endregion
+
+    #region [ - Create() - ]
+
+    [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
-
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreatePersonDto createPersonDto)
@@ -33,49 +46,70 @@ public class PersonController : Controller
             return View(createPersonDto);
         }
 
-        await _personApplicationService.PostPerson(createPersonDto);
+        await _personApplicationService.Post(createPersonDto);
         return RedirectToAction(nameof(Index));
     }
 
+    #endregion
+
+    #region [ - Edit() - ]
+
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(GetPersonDto getPersonDto)
     {
-        var dto = await _personApplicationService.GetPersonById(id);
-        if (dto is null)
+        var person = await _personApplicationService.GetById(getPersonDto);
+
+        if (person is null)
             return NotFound();
 
-        return View(dto);
+        var editPersonDto = new EditPersonDto()
+        {
+            Id = person.Id,
+            FirstName = person.FirstName,
+            LastName = person.LastName
+        };
+
+        return View(editPersonDto);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, EditPersonDto editPersonDto)
+    public async Task<IActionResult> Edit(EditPersonDto editPersonDto)
     {
-        if (id != editPersonDto.Id)
-            return BadRequest();
-
         if (!ModelState.IsValid)
             return View(editPersonDto);
 
-        await _personApplicationService.PutPerson(editPersonDto);
+        await _personApplicationService.Put(editPersonDto);
+
         return RedirectToAction(nameof(Index));
     }
-    
+
+    #endregion
+
+    #region [ - Delete() - ]
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(DeletePersonDto deletePersonDto)
     {
-        await _personApplicationService.DeletePerson(deletePersonDto);
+        await _personApplicationService.Delete(deletePersonDto);
         return RedirectToAction(nameof(Index));
     }
-    
-    public async Task<IActionResult> Details(int id)
-    {
-        var person = await _personApplicationService.GetPersonById(id);
 
-        if (person == null)
+    #endregion
+
+    #region [ - Details() - ]
+
+    [HttpGet]
+    public async Task<IActionResult> Details(GetPersonDto getPersonDto)
+    {
+        var person = await _personApplicationService.GetById(getPersonDto);
+
+        if (person is null)
             return NotFound();
 
         return View(person);
     }
+
+    #endregion
 }
